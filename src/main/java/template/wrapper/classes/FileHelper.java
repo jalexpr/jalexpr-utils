@@ -192,9 +192,9 @@ public class FileHelper {
         }
     }
 
-    public static void write(FileOutputStream fileOutputStream, byte[] bytes) {
+    public static void write(OutputStream fileOutput, byte[] bytes) {
         try {
-            fileOutputStream.write(bytes);
+            fileOutput.write(bytes);
         } catch (IOException ex) {
             Logger.getLogger(FileHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
