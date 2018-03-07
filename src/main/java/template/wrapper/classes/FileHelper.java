@@ -154,6 +154,10 @@ public class FileHelper {
         return 0;
     }
 
+    public static BufferedWriter openBufferedWriterStream(String pathFile) {
+        return openBufferedWriterStream(pathFile, "UTF-8");
+    }
+
     public static BufferedWriter openBufferedWriterStream(String pathFile, String encoding) {
         BufferedWriter bufferedWriter = null;
         try {
@@ -167,6 +171,15 @@ public class FileHelper {
             Logger.getLogger(FileHelper.class.getName()).log(Level.SEVERE, messages, ex);
         }
         return bufferedWriter;
+    }
+
+    public static void write(BufferedWriter bufferedWriter, String stringLine) {
+        try {
+            bufferedWriter.write(stringLine);
+        } catch (IOException ex) {
+            String messages = String.format("Ошибка при записи файла.\r\nСтроки %s\r\n", stringLine);
+            Logger.getLogger(FileHelper.class.getName()).log(Level.SEVERE, messages, ex);
+        }
     }
 
     public static String readLine(BufferedReader bufferedReader) {
