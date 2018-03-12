@@ -1,1 +1,2 @@
-# TemplateWrapperClasses
+# TemplateWrapperClasses<br>
+Повторяющие обертки классов, некоторые классы и методы, которые используются в разных программах.
