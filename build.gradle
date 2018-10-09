@@ -14,6 +14,7 @@ dependencies {
 }
 
 jar {
+    compileJava.options.encoding = 'UTF-8'
     destinationDir = file("${buildDir}/jars")
 }
 
