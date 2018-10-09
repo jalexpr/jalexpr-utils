@@ -18,8 +18,8 @@ package template.wrapper.hash;
 
 /**
  * @author tamtam180 - kirscheless at gmail.com
- * @see http://google-opensource.blogspot.jp/2011/04/introducing-cityhash.html
- * @see http://code.google.com/p/cityhash/
+ * see http://google-opensource.blogspot.jp/2011/04/introducing-cityhash.html
+ * see http://code.google.com/p/cityhash/
  *
  */
 
