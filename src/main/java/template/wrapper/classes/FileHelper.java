@@ -46,7 +46,7 @@ public class FileHelper {
 
     public static Scanner openScannerFromZipFile(String pathZipFile, String pathFile, String encoding) throws Exception {
         try {
-            return new Scanner(openZipFile(pathZipFile, pathFile), encoding);
+            return new Scanner(openZipFile(new FileInputStream(new File(pathZipFile)), pathFile), encoding);
         } catch (FileNotFoundException ex) {
             String messages = String.format("Ошибка при чтении файла.%sПроверте наличие %s, в случае отсуствия скачайте с репозитория%s",
                     System.lineSeparator(), pathFile, System.lineSeparator());
@@ -55,8 +55,8 @@ public class FileHelper {
         }
     }
 
-    public static ZipInputStream openZipFile(String zipPath, String nameLibrary) throws IOException {
-        ZipInputStream zip = new ZipInputStream(new FileInputStream(new File(zipPath)));
+    public static ZipInputStream openZipFile(InputStream zipPath, String nameLibrary) throws IOException {
+        ZipInputStream zip = new ZipInputStream((zipPath));
         for (ZipEntry e; (e = zip.getNextEntry()) != null;) {
             if (e.getName().equals(nameLibrary)) {
                 return zip;
@@ -100,6 +100,17 @@ public class FileHelper {
         }
 
         return bufferedReader;
+    }
+
+    public static FileOutputStream openFileOutputStream(File pathFile) {
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(pathFile);
+        } catch (FileNotFoundException ex) {
+            String messages = String.format("Ошибка при открытия файла.\r\nПроверте наличие %s\r\n", pathFile);
+            Logger.getLogger(FileHelper.class.getName()).log(Level.SEVERE, messages, ex);
+        }
+        return fileOutputStream;
     }
 
     public static FileOutputStream openFileOutputStream(String pathFile) {

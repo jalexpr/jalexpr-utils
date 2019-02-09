@@ -73,11 +73,11 @@ public class Lzma2FileHelper {
         return inputSize;
     }
 
-    public static void deCompressionFile(String pathFile, String newNameFile) {
+    public static void deCompressionFile(String pathFile, File newNameFile) {
         deCompressionFile(pathFile, Integer.MAX_VALUE / 2, newNameFile);
     }
 
-    public static void deCompressionFile(String pathFile, int sizeFileInByte, String newNameFile) {
+    public static void deCompressionFile(String pathFile, int sizeFileInByte, File newNameFile) {
         FileOutputStream deCompressFile = openFileOutputStream(newNameFile);
         InputStream compressFile = openLzmaInputStream(pathFile);
         byte[] buf = new byte[sizeFileInByte];
@@ -100,7 +100,7 @@ public class Lzma2FileHelper {
     public static LZMAInputStream openLzmaInputStream(String pathFile) {
         LZMAInputStream lzmaInputStream = null;
         try {
-            lzmaInputStream = new LZMAInputStream(openFileInputStream(pathFile));
+            lzmaInputStream = new LZMAInputStream(Lzma2FileHelper.class.getClassLoader().getResourceAsStream(pathFile));
         } catch (IOException ex) {
             String messages = String.format("Ошибка при чтении файла.\r\nПроверте наличие %s\r\n", pathFile);
             Logger.getLogger(FileHelper.class.getName()).log(Level.SEVERE, messages, ex);
@@ -143,11 +143,10 @@ public class Lzma2FileHelper {
         }
     }
 
-    public static void main(String[] args) {
-        String nameFile = "dict.opcorpora.txt";
+//    public static void main(String[] args) {
+//        String nameFile = "dict.opcorpora.txt";
 //        int size = 282217094;
-        int size = compressionFile(nameFile, 9);
-        deCompressionFile(nameFile + ARCHIVE_EXPANSION, size, nameFile);
-    }
-
+//        int size = compressionFile(nameFile, 9);
+//        deCompressionFile(nameFile + ARCHIVE_EXPANSION, size, nameFile);
+//    }
 }
