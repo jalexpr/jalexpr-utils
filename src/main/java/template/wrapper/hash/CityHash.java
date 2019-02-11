@@ -16,6 +16,8 @@
 
 package template.wrapper.hash;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * @author tamtam180 - kirscheless at gmail.com
  * see http://google-opensource.blogspot.jp/2011/04/introducing-cityhash.html
@@ -165,7 +167,11 @@ public class CityHash {
     }
 
     public static long cityHash64(String str) {
-        return cityHash64(str.getBytes());
+        try {
+            return cityHash64(str.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     public static long cityHash64(byte[] s) {
