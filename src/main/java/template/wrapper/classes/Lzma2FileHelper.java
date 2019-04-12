@@ -74,7 +74,7 @@ public class Lzma2FileHelper {
     }
 
     public static void deCompressionFile(String pathFile, File newNameFile) {
-        deCompressionFile(pathFile, Integer.MAX_VALUE / 2, newNameFile);
+        deCompressionFile(pathFile, 120 * 1024 * 1024, newNameFile);
     }
 
     public static void deCompressionFile(String pathFile, int sizeFileInByte, File newNameFile) {
