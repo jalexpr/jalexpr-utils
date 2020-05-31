@@ -61,10 +61,20 @@ public class BDSqlite {
         }
     }
 
-    public ResultSet executeQuery(String query) {
+    public String executeQuery(String query, String column) {
         try (Connection conn = ds.getConnection();
              Statement statmt = conn.createStatement()) {
-            return statmt.executeQuery(query);
+            return statmt.executeQuery(query).getString(column);
+        } catch (SQLException ex) {
+            Logger.getLogger(BDSqlite.class.getName()).log(Level.SEVERE, "Не удалось выполнить запрос: " + query, ex);
+            throw new RuntimeException();
+        }
+    }
+
+    public Object executeQuery(String query, int column) {
+        try (Connection conn = ds.getConnection();
+             Statement statmt = conn.createStatement()) {
+            return statmt.executeQuery(query).getObject(column);
         } catch (SQLException ex) {
             Logger.getLogger(BDSqlite.class.getName()).log(Level.SEVERE, "Не удалось выполнить запрос: " + query, ex);
             throw new RuntimeException();
