@@ -34,8 +34,9 @@
  */
 package template.wrapper.classes;
 
+import org.sqlite.SQLiteDataSource;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -44,21 +45,16 @@ import java.util.logging.Logger;
 
 public class BDSqlite {
 
-    private Statement statmt;
+    private static SQLiteDataSource ds;
 
     public BDSqlite(String nameBD) {
-        Connection conn;
-        try {
-            Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection("jdbc:sqlite:" + nameBD);
-            statmt = conn.createStatement();
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(BDSqlite.class.getName()).log(Level.SEVERE, "База не подключена!", ex);
-        }
+        ds = new SQLiteDataSource();
+        ds.setUrl("jdbc:sqlite:" + nameBD);
     }
 
     public void execute(String query) {
-        try {
+        try (Connection conn = ds.getConnection();
+             Statement statmt = conn.createStatement()) {
             statmt.execute(query);
         } catch (SQLException ex) {
             Logger.getLogger(BDSqlite.class.getName()).log(Level.SEVERE, "Не удалось выполнить запрос: " + query, ex);
@@ -66,19 +62,12 @@ public class BDSqlite {
     }
 
     public ResultSet executeQuery(String query) {
-        try {
+        try (Connection conn = ds.getConnection();
+             Statement statmt = conn.createStatement()) {
             return statmt.executeQuery(query);
         } catch (SQLException ex) {
             Logger.getLogger(BDSqlite.class.getName()).log(Level.SEVERE, "Не удалось выполнить запрос: " + query, ex);
             throw new RuntimeException();
-        }
-    }
-
-    public void closeDB(){
-        try {
-            statmt.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(BDSqlite.class.getName()).log(Level.SEVERE, "Соединения закрыты с ошибкой", ex);
         }
     }
 }
