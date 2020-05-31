@@ -45,7 +45,7 @@ import java.util.logging.Logger;
 
 public class BDSqlite {
 
-    private static SQLiteDataSource ds;
+    private final SQLiteDataSource ds;
 
     public BDSqlite(String nameBD) {
         ds = new SQLiteDataSource();
