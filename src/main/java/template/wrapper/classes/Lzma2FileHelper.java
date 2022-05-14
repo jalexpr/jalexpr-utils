@@ -74,15 +74,17 @@ public class Lzma2FileHelper {
     }
 
     public static void deCompressionFile(String pathFile, File newNameFile) {
-        deCompressionFile(pathFile, 120 * 1024 * 1024, newNameFile);
+        deCompressionFile(pathFile, 64 * 1024 * 1024, newNameFile);
     }
 
     public static void deCompressionFile(String pathFile, int sizeFileInByte, File newNameFile) {
         FileOutputStream deCompressFile = openFileOutputStream(newNameFile);
         InputStream compressFile = openLzmaInputStream(pathFile);
         byte[] buf = new byte[sizeFileInByte];
-        int sizeDecompressFile = read(compressFile, buf, 0, sizeFileInByte);
-        FileHelper.write(deCompressFile, buf, sizeDecompressFile);
+        int sizeDecompressFile;
+        while((sizeDecompressFile = read(compressFile, buf, 0, sizeFileInByte)) > 0){
+            FileHelper.write(deCompressFile, buf, sizeDecompressFile);
+        }
     }
 
     public static LZMAOutputStream openLzmaOutputStream(String pathFile, LZMA2Options options, long var3) {
